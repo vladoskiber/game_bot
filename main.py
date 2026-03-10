@@ -10,6 +10,10 @@ from telegram.ext import (
     CallbackQueryHandler,
 )
 import random
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
@@ -126,7 +130,7 @@ async def game(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == "__main__":
     application = (
         ApplicationBuilder()
-        .token("8506135246:AAEd3czNoKO0RQGxcPNKzvV13BNKAjBSELs")
+        .token(os.getenv('TOKEN'))
         .build()
     )
     conv_handler = ConversationHandler(

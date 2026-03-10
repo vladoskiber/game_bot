@@ -126,6 +126,7 @@ async def game(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return await start(update,context)
 
 # async def game_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
+#
 
 if __name__ == "__main__":
     application = (

@@ -1,0 +1,1 @@
+MAINMENU, TALK, GAME, CITIES = range(4)

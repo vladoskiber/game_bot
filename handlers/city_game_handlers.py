@@ -1,5 +1,5 @@
 from telegram import (
-    Update,
+    Update,InlineKeyboardButton,InlineKeyboardMarkup
 )
 from telegram.ext import (
     ContextTypes,
@@ -8,7 +8,8 @@ from openai import OpenAI
 
 from config.states import CITIES
 
-
+keyboard = [ [InlineKeyboardButton("Вернуться в меню", callback_data="start")] ]
+markup = InlineKeyboardMarkup(keyboard)
 async def game_2_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     client = OpenAI()
     response = client.responses.create(
@@ -24,8 +25,10 @@ async def game_2_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data["city"] = response.output_text
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
-        text=f"Вы попали в игру города \nЯ начинаю, {response.output_text}",
+        text=f"Вы попали в игру города \nЯ начинаю, {response.output_text}",reply_markup=markup
     )
+    
+    
     return CITIES
 
 
@@ -42,7 +45,6 @@ async def game_2(update: Update, context: ContextTypes.DEFAULT_TYPE):
             chat_id=update.effective_chat.id,
             text=f"Я сказал {bot_city}, значит тебе нужно вспомнить город на {bot_city[-1]}",
         )
-        return CITIES
     # задать вопрос чату гпт, ответь да или нет. Существует ли город и дать город человека. Если да то идем дальше, если нет, то пишем что я не знаю такой город
     client = OpenAI()
     response = client.responses.create(

@@ -1,12 +1,13 @@
-from telegram import (
-    Update,
-)
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import (
     ContextTypes,
 )
 from openai import OpenAI
 
-from  config.states import TALK
+from config.states import TALK
+
+keyboard = [[InlineKeyboardButton("Вернуться в меню", callback_data="start")]]
+markup = InlineKeyboardMarkup(keyboard)
 
 
 async def talk_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -14,11 +15,12 @@ async def talk_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if query:
         await query.answer()
 
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await query.edit_message_text(
         text="Вы попали в режим разговора! Напишите что-то и бот вам ответит",
+        reply_markup=markup,
     )
     context.user_data["prev_messages"] = []
+
     return TALK
 
 

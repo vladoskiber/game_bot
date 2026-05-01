@@ -31,33 +31,20 @@ logging.basicConfig(
 
 # callback
 
-async def biba(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="боба")
-
-
-async def info(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=update.effective_user
-    )
-
-
-
 if __name__ == "__main__":
     application = ApplicationBuilder().token(os.getenv("TOKEN")).build()
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
         states={
             MAINMENU: [
-                CommandHandler("biba", biba),
-                CommandHandler("info", info),
                 CommandHandler("game", game_start),
                 CallbackQueryHandler(talk_start, pattern="^talk$"),
                 CallbackQueryHandler(game_start, pattern="^game$"),
                 CallbackQueryHandler(game_2_start, pattern="^game_2$"),
             ],
-            TALK: [MessageHandler(filters.TEXT & ~filters.COMMAND, talk)],
-            GAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, game)],
-            CITIES: [MessageHandler(filters.TEXT & ~filters.COMMAND, game_2)],
+            TALK: [MessageHandler(filters.TEXT & ~filters.COMMAND, talk), CallbackQueryHandler(start, pattern="^start$")],
+            GAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, game),],
+            CITIES: [MessageHandler(filters.TEXT & ~filters.COMMAND, game_2),CallbackQueryHandler(start, pattern="^start$")],
         },
         fallbacks=[CommandHandler("start", start)],
     )

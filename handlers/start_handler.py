@@ -28,6 +28,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("Режим разговора", callback_data="talk")],
         [InlineKeyboardButton("Игра города", callback_data="game_2")],
         [InlineKeyboardButton("Игра загадай число", callback_data="game")],
+        [InlineKeyboardButton("ГаДаЛкА", callback_data="gadalka")]
     ]
 
     markup = InlineKeyboardMarkup(keyboard)
